@@ -6,14 +6,16 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2021/10/06 16:13:59 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/10/07 12:30:14 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PHILO_H
+# define PHILO_H
 # include <stdio.h>
-# include <stdlib.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <pthread.h>
 
 typedef struct s_philo
 {

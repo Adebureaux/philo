@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:59:49 by adeburea          #+#    #+#             */
-/*   Updated: 2021/10/06 16:01:07 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/10/07 12:24:32 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_atoi(const char *str)
 	ret = 0;
 	sign = 1;
 	if (str[i] == '-')
-		sign = -1;
+		ret = -1;
 	if (str[i] == '+' || str[i] == '-')
 		i++;
 	while (ft_isdigit(str[i]))
