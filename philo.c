@@ -6,18 +6,18 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2021/10/11 11:33:17 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/10/14 10:36:54 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-char	*parse_game(int ac, char **av, t_game *game)
+char	*parse(int ac, char **av, t_game *game)
 {
 	if (ac != 5 && ac != 6)
 		return ("must have 4 or 5 arguments");
 	game->number = ft_atoi(*(av + 1));
-	if (game->number < 0)
+	if (game->number < 1)
 		return ("arg 1 must be 'number_of_gamesophers'");
 	game->die = ft_atoi(*(av + 2));
 	if (game->die < 1)
@@ -32,32 +32,38 @@ char	*parse_game(int ac, char **av, t_game *game)
 	if (ac == 6)
 		game->times = ft_atoi(*(av + 5));
 	if (ac == 6 && game->times < 1)
-		return ("arg 5 must be 'number_of_times_each_gamesopher_must_eat'");
+		return ("arg 5 must be 'number_of_times_each_gamesopher_must_eat' > 0");
 	return (NULL);
 }
 
-void *myThreadFun(void *vargp)
+int	init(t_game *game, t_philo *philo)
 {
-    sleep(1);
-    printf("Printing GeeksQuiz from Thread \n");
-    return NULL;
-}
+	int	i;
 
-void init_game(t_game *game)
-{
-    pthread_t thread_id;
-    printf("Before Thread\n");
-    pthread_create(&thread_id, NULL, myThreadFun, NULL);
-    pthread_join(thread_id, NULL);
-    printf("After Thread\n");
+	i = -1;
+	while (++i < game->number)
+	{
+		philo[i].is_die = 0;
+		philo[i].is_eat = 0;
+		philo[i].is_sleep = 0;
+		philo[i].l_fork = 0;
+		philo[i].r_fork = 0;
+	}
+	if (pthread_mutex_init(&game->lock, NULL))
+		return (printf("pthread_mutex_init: error\n"));
+	game->philo = philo;
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
 	t_game	game;
+	t_philo	*philo;
 
-	if (parse_game(ac, av, &game))
-		return (printf("%s: error: %s\n", av[0], parse_game(ac, av, &game)));
-	init_game(&game);
+	if (parse(ac, av, &game))
+		return (printf("%s: error: %s\n", av[0], parse(ac, av, &game)));
+	philo = malloc(sizeof(t_philo) * game.number);
+	if (!philo || init(&game, philo) || routines(&game, philo))
+		return (1);
 	return (0);
 }
