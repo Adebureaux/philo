@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2021/10/14 11:28:09 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/10/14 16:59:08 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,22 @@ typedef struct s_philo
 	int			r_fork;
 }			t_philo;
 
-typedef struct s_game
+typedef struct s_board
 {
 	pthread_mutex_t	lock;
 	struct timeval	tp[2];
 	void			*philo;
-	int				timer;
-	int				count;
 	int				number;
 	int				die;
 	int				eat;
 	int				sleep;
 	int				times;
-}			t_game;
+	int				timer;
+	int				time;
+	int				count;
+}			t_board;
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
-int		routines(t_game *game, t_philo *philo);
+int		routines(t_board *board, t_philo *philo);
 #endif
