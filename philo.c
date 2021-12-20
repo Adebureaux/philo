@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2021/10/14 17:16:15 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:24:36 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ char	*parse(int ac, char **av, t_board *board)
 	board->sleep = ft_atoi(*(av + 4));
 	if (board->sleep < 1)
 		return ("arg 4 must be 'time_to_sleep'");
-	board->times = -1;
+	board->limit = -1;
 	if (ac == 6)
-		board->times = ft_atoi(*(av + 5));
-	if (ac == 6 && board->times < 1)
+		board->limit = ft_atoi(*(av + 5));
+	if (ac == 6 && board->limit < 1)
 		return ("arg 5 must be 'number_of_times_each_philosopher_must_eat'");
 	return (NULL);
 }
@@ -48,6 +48,9 @@ int	init(t_board *board, t_philo *philo)
 		philo[i].is_sleep = 0;
 		philo[i].l_fork = 0;
 		philo[i].r_fork = 0;
+		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
+			return (printf("pthread_create: error: can't create thread\n"));
+		printf("philo %d has born\n", i);
 	}
 	if (pthread_mutex_init(&board->lock, NULL))
 		return (printf("pthread_mutex_init: error\n"));
@@ -63,7 +66,9 @@ int	main(int ac, char **av)
 	if (parse(ac, av, &board))
 		return (printf("%s: error: %s\n", av[0], parse(ac, av, &board)));
 	philo = malloc(sizeof(t_philo) * board.number);
-	if (!philo || init(&board, philo) || routines(&board, philo))
-		return (1);
-	return (0);
+	if (!philo)
+		return (printf("malloc error\n"));
+	else if (init(&board, philo))
+		return (printf("initialization error\n"));
+	return (1);
 }

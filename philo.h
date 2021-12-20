@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2021/10/14 16:59:08 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:24:14 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_board
 	int				die;
 	int				eat;
 	int				sleep;
-	int				times;
+	int				limit;
 	int				timer;
 	int				time;
 	int				count;
@@ -45,5 +45,5 @@ typedef struct s_board
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
-int		routines(t_board *board, t_philo *philo);
+void	*routine(void *arg);
 #endif
