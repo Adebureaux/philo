@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2021/12/21 13:08:20 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/12/21 15:06:21 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,13 @@ int	start_philo(t_board *board, t_philo *philo)
 	int	i;
 
 	i = -1;
-	board->philo = philo;
-	printf("start_philo address: %p\n", board);
 	while (++i < board->number)
 	{
 		philo[i].is_die = 0;
 		philo[i].is_eat = 0;
 		philo[i].is_sleep = 0;
 		philo[i].eat_count = 0;
+		printf("IN START = %d\n", board->limit);
 		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
 			return (printf("pthread_create: error: can't create thread\n"));
 	}
@@ -66,14 +65,17 @@ int	start_philo(t_board *board, t_philo *philo)
 
 int	main(int ac, char **av)
 {
-	t_board	board;
+	t_board	*board;
 	t_philo	*philo;
 
-	if (parse(ac, av, &board))
-		return (printf("%s: error: %s\n", av[0], parse(ac, av, &board)));
-	philo = malloc(sizeof(t_philo) * board.number);
+	board = malloc(sizeof(t_board));
+	if (!board)
+		return (printf("malloc error\n"));
+	if (parse(ac, av, board))
+		return (printf("%s: error: %s\n", av[0], parse(ac, av, board)));
+	philo = malloc(sizeof(t_philo) * board->number);
 	if (!philo)
 		return (printf("malloc error\n"));
-	start_philo(&board, philo);
+	start_philo(board, philo);
 	return (1);
 }

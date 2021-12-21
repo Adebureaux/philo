@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2021/12/21 12:36:50 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/12/21 14:47:02 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,26 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef struct s_philo
-{
-	pthread_t	philo;
-	int			is_die;
-	int			is_eat;
-	int			is_sleep;
-	int			eat_count;
-}			t_philo;
 
 typedef struct s_board
 {
 	pthread_mutex_t	*lock;
-	void			*philo;
 	int				number;
 	int				die;
 	int				eat;
 	int				sleep;
 	int				limit;
 }			t_board;
+
+typedef struct s_philo
+{
+	pthread_t	philo;
+	t_board		*board;
+	int			is_die;
+	int			is_eat;
+	int			is_sleep;
+	int			eat_count;
+}			t_philo;
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
