@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2021/12/20 17:24:14 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:36:50 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,18 @@ typedef struct s_philo
 	int			is_die;
 	int			is_eat;
 	int			is_sleep;
-	int			l_fork;
-	int			r_fork;
+	int			eat_count;
 }			t_philo;
 
 typedef struct s_board
 {
-	pthread_mutex_t	lock;
-	struct timeval	tp[2];
+	pthread_mutex_t	*lock;
 	void			*philo;
 	int				number;
 	int				die;
 	int				eat;
 	int				sleep;
 	int				limit;
-	int				timer;
-	int				time;
-	int				count;
 }			t_board;
 
 int		ft_isdigit(int c);

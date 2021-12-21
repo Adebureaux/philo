@@ -6,11 +6,19 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2021/12/20 17:24:36 by adeburea         ###   ########.fr       */
+/*   Updated: 2021/12/21 13:08:20 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+size_t	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (((tv.tv_sec) * 1000 + (tv.tv_usec / 1000)));
+}
 
 char	*parse(int ac, char **av, t_board *board)
 {
@@ -36,27 +44,25 @@ char	*parse(int ac, char **av, t_board *board)
 	return (NULL);
 }
 
-int	init(t_board *board, t_philo *philo)
+int	start_philo(t_board *board, t_philo *philo)
 {
 	int	i;
 
 	i = -1;
+	board->philo = philo;
+	printf("start_philo address: %p\n", board);
 	while (++i < board->number)
 	{
 		philo[i].is_die = 0;
 		philo[i].is_eat = 0;
 		philo[i].is_sleep = 0;
-		philo[i].l_fork = 0;
-		philo[i].r_fork = 0;
+		philo[i].eat_count = 0;
 		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
 			return (printf("pthread_create: error: can't create thread\n"));
-		printf("philo %d has born\n", i);
 	}
-	if (pthread_mutex_init(&board->lock, NULL))
-		return (printf("pthread_mutex_init: error\n"));
-	board->philo = philo;
 	return (0);
 }
+
 
 int	main(int ac, char **av)
 {
@@ -68,7 +74,6 @@ int	main(int ac, char **av)
 	philo = malloc(sizeof(t_philo) * board.number);
 	if (!philo)
 		return (printf("malloc error\n"));
-	else if (init(&board, philo))
-		return (printf("initialization error\n"));
+	start_philo(&board, philo);
 	return (1);
 }
