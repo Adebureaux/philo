@@ -12,11 +12,21 @@
 
 #include "philo.h"
 
+size_t	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (((tv.tv_sec) * 1000 + (tv.tv_usec / 1000)));
+}
+
 void	*routine(void *arg)
 {
+	t_philo	*philo;
 	t_board	*board;
 
-	board = (t_board*)arg;
-	printf("IN ROUTINE = %d\n", board->limit);
+	philo = (t_philo*)arg;
+	board = (t_board*)philo->board;
+	printf("philo[%d] is living\n", philo->id + 1);
 	return (NULL);
 }

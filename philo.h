@@ -21,7 +21,7 @@
 
 typedef struct s_board
 {
-	pthread_mutex_t	*lock;
+	pthread_mutex_t	**forks;
 	int				number;
 	int				die;
 	int				eat;
@@ -31,13 +31,16 @@ typedef struct s_board
 
 typedef struct s_philo
 {
-	pthread_t	philo;
-	t_board		*board;
-	int			is_die;
-	int			is_eat;
-	int			is_sleep;
-	int			eat_count;
-}			t_philo;
+	int				id;
+	pthread_t		philo;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
+	t_board			*board;
+	int				is_die;
+	int				is_eat;
+	int				is_sleep;
+	int				eat_count;
+}				t_philo;
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);

@@ -12,14 +12,6 @@
 
 #include "philo.h"
 
-size_t	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (((tv.tv_sec) * 1000 + (tv.tv_usec / 1000)));
-}
-
 char	*parse(int ac, char **av, t_board *board)
 {
 	if (ac != 5 && ac != 6)
@@ -51,12 +43,15 @@ int	start_philo(t_board *board, t_philo *philo)
 	i = -1;
 	while (++i < board->number)
 	{
+		usleep(5000);
+		printf("philo %d has born\n", i);
+		philo[i].id = i;
 		philo[i].is_die = 0;
 		philo[i].is_eat = 0;
 		philo[i].is_sleep = 0;
 		philo[i].eat_count = 0;
-		printf("IN START = %d\n", board->limit);
-		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
+		philo[i].board = board;
+		if (pthread_create(&(philo[i].philo), NULL, &routine, &philo[i]))
 			return (printf("pthread_create: error: can't create thread\n"));
 	}
 	return (0);
@@ -65,8 +60,8 @@ int	start_philo(t_board *board, t_philo *philo)
 
 int	main(int ac, char **av)
 {
-	t_board	*board;
 	t_philo	*philo;
+	t_board	*board;
 
 	board = malloc(sizeof(t_board));
 	if (!board)
@@ -74,8 +69,14 @@ int	main(int ac, char **av)
 	if (parse(ac, av, board))
 		return (printf("%s: error: %s\n", av[0], parse(ac, av, board)));
 	philo = malloc(sizeof(t_philo) * board->number);
+	if (board->number != 1)
+		board->forks = malloc(sizeof(pthread_mutex_t*) * board->number);
 	if (!philo)
 		return (printf("malloc error\n"));
 	start_philo(board, philo);
+	while (1)
+	{
+		;
+	}
 	return (1);
 }
