@@ -18,14 +18,14 @@ char	*parse(int ac, char **av, t_board *board)
 		return ("must have 4 or 5 arguments");
 	board->number = ft_atoi(*(av + 1));
 	if (board->number < 1)
-		return ("arg 1 must be 'number_of_boardsophers'");
-	board->die = ft_atoi(*(av + 2));
+		return ("arg 1 must be 'number_of_philosophers'");
+	board->die = ft_atoi(*(av + 2)) * 1000;
 	if (board->die < 1)
 		return ("arg 2 must be 'time_to_die'");
-	board->eat = ft_atoi(*(av + 3));
+	board->eat = ft_atoi(*(av + 3)) * 1000;
 	if (board->eat < 1)
 		return ("arg 3 must be 'time_to_eat'");
-	board->sleep = ft_atoi(*(av + 4));
+	board->sleep = ft_atoi(*(av + 4)) * 1000;
 	if (board->sleep < 1)
 		return ("arg 4 must be 'time_to_sleep'");
 	board->limit = -1;
@@ -36,32 +36,67 @@ char	*parse(int ac, char **av, t_board *board)
 	return (NULL);
 }
 
-int	start_philo(t_board *board, t_philo *philo)
+int	assign_forks(t_board *board, t_philo *philo, int i)
+{
+	if (!i)
+	{
+		if (pthread_mutex_init(&(philo[i].l_fork), NULL) || pthread_mutex_init(&(philo[i].r_fork), NULL))
+			return (1);
+	}
+	else if (i != board->number)
+	{
+		philo[i].l_fork = philo[i - 1].r_fork;
+		if (pthread_mutex_init(&(philo[i].r_fork), NULL))
+			return  (1);
+	}
+	else
+	{
+		philo[i].l_fork = philo[i - 1].r_fork;
+		philo[i].r_fork = philo[0].l_fork;
+	}
+	return (0);
+}
+
+int	init_philo(t_board *board, t_philo *philo)
 {
 	int	i;
 
 	i = -1;
 	while (++i < board->number)
 	{
-		usleep(5000);
-		printf("philo %d has born\n", i);
-		philo[i].id = i;
-		philo[i].is_die = 0;
-		philo[i].is_eat = 0;
-		philo[i].is_sleep = 0;
+		philo[i].is_dead = 0;
 		philo[i].eat_count = 0;
-		philo[i].board = board;
-		if (pthread_create(&(philo[i].philo), NULL, &routine, &philo[i]))
-			return (printf("pthread_create: error: can't create thread\n"));
+		if (assign_forks(board, philo, i))
+			return (1);
 	}
+	board->philo = philo;
+	board->stop = 0;
+	return (0);
+}
+
+int	start_philo(t_board *board, t_philo *philo)
+{
+	int		i;
+
+	i = -1;
+	while (++i < board->number)
+	{
+		board->id = i;
+		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
+			return (1);
+		usleep(500);
+	}
+	i = -1;
+	while (++i < board->number)
+		pthread_join(philo[i].philo, NULL);
 	return (0);
 }
 
 
 int	main(int ac, char **av)
 {
-	t_philo	*philo;
 	t_board	*board;
+	t_philo	*philo;
 
 	board = malloc(sizeof(t_board));
 	if (!board)
@@ -69,14 +104,11 @@ int	main(int ac, char **av)
 	if (parse(ac, av, board))
 		return (printf("%s: error: %s\n", av[0], parse(ac, av, board)));
 	philo = malloc(sizeof(t_philo) * board->number);
-	if (board->number != 1)
-		board->forks = malloc(sizeof(pthread_mutex_t*) * board->number);
 	if (!philo)
 		return (printf("malloc error\n"));
-	start_philo(board, philo);
-	while (1)
-	{
-		;
-	}
+	if (init_philo(board, philo))
+		return (printf("pthread_mutex_init: error: can't create mutex\n"));
+	if (start_philo(board, philo))
+		return (printf("pthread_create: error: can't create thread\n"));
 	return (1);
 }

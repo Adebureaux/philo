@@ -18,29 +18,26 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+typedef struct s_philo
+{
+	pthread_t		philo;
+	pthread_mutex_t	l_fork;
+	pthread_mutex_t	r_fork;
+	int				is_dead;
+	int				eat_count;
+}				t_philo;
 
 typedef struct s_board
 {
-	pthread_mutex_t	**forks;
+	t_philo			*philo;
+	int				id;
+	int				stop;
 	int				number;
 	int				die;
 	int				eat;
 	int				sleep;
 	int				limit;
 }			t_board;
-
-typedef struct s_philo
-{
-	int				id;
-	pthread_t		philo;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*r_fork;
-	t_board			*board;
-	int				is_die;
-	int				is_eat;
-	int				is_sleep;
-	int				eat_count;
-}				t_philo;
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);

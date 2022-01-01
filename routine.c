@@ -20,13 +20,34 @@ size_t	get_time(void)
 	return (((tv.tv_sec) * 1000 + (tv.tv_usec / 1000)));
 }
 
+size_t	try_eat(int id, int eat, t_philo *philo)
+{
+	size_t	time;
+
+	pthread_mutex_lock(&(philo[id].l_fork));
+	pthread_mutex_lock(&(philo[id].r_fork));
+	time = get_time();
+	printf("%zu philo%d has taken a fork\n", get_time() - time, id);
+	usleep(eat);
+	pthread_mutex_unlock(&(philo[id].l_fork));
+	pthread_mutex_unlock(&(philo[id].r_fork));
+	printf("%zu philo%d eating\n", get_time() - time, id);
+	return (1);
+}
+
 void	*routine(void *arg)
 {
-	t_philo	*philo;
 	t_board	*board;
-
-	philo = (t_philo*)arg;
-	board = (t_board*)philo->board;
-	printf("philo[%d] is living\n", philo->id + 1);
+	t_philo	*philo;
+	int		id;
+	
+	board = (t_board *)arg;
+	philo = board->philo;
+	id = board->id;
+	while (42)
+	{
+		try_eat(id, board->eat, philo);
+	}
+	
 	return (NULL);
 }
