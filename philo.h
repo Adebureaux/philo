@@ -28,7 +28,6 @@ typedef struct s_philo
 	int				start_time;
 	int				cur_time;
 	int				last_time;
-	int				is_dead;
 	int				eat_count;
 }				t_philo;
 

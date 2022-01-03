@@ -52,6 +52,7 @@ void	philo_live(t_board *board, t_philo *philo, int id)
 
 	// Think
 	philo_speak(philo, "%lu %d is thinking\n", id);
+	usleep(500);
 }
 
 void	*routine(void *arg)

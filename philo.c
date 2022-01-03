@@ -74,7 +74,6 @@ int	init_philo(t_board *board, t_philo *philo)
 		return (1);
 	while (++i < board->number)
 	{
-		philo[i].is_dead = 0;
 		philo[i].eat_count = 0;
 		philo[i].print = print;
 		if (assign_forks(board, philo, i))
@@ -99,9 +98,7 @@ int	start_philo(t_board *board, t_philo *philo)
 	}
 	i = -1;
 	while (++i < board->number)
-	{
 		pthread_join(philo[i].philo, NULL);
-	}
 	return (0);
 }
 
