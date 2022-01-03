@@ -21,39 +21,37 @@ size_t	get_time(void)
 	return (((tv.tv_sec) * 1000 + (tv.tv_usec / 1000)));
 }
 
-void	usleep_custom(size_t time)
+void	philo_speak(t_philo *philo, char *str, int id)
 {
-	size_t	start;
-
-	start = get_time();
-	while (get_time() - start < time)
-		usleep(500);
+	pthread_mutex_lock(philo[id].print);
+	printf(str, get_time() - philo[id].start_time, id);
+	pthread_mutex_unlock(philo[id].print);
 }
 
 void	philo_live(t_board *board, t_philo *philo, int id)
 {
+	// Taking forks
 	pthread_mutex_lock(philo[id].l_fork);
-	pthread_mutex_lock(philo[id].print);
-	printf("%lu %d has taken a fork\n", get_time() - philo[id].start_time, id);
-	pthread_mutex_unlock(philo[id].print);
 	pthread_mutex_lock(philo[id].r_fork);
-	pthread_mutex_lock(philo[id].print);
-	printf("%lu %d has taken a fork\n", get_time() - philo[id].start_time, id);
-	pthread_mutex_unlock(philo[id].print);
-	pthread_mutex_lock(philo[id].print);
-	printf("%lu %d is eating\n", get_time() - philo[id].start_time, id);
-	pthread_mutex_unlock(philo[id].print);
-	usleep_custom(board->eat);
-	pthread_mutex_unlock(philo[id].l_fork);
+	philo_speak(philo, "%lu %d has taken a fork\n", id);
+	philo_speak(philo, "%lu %d has taken a fork\n", id);
+	//take_forks(philo, id);
+
+	// Eat
+	philo_speak(philo, "%lu %d is eating\n", id);
+	usleep(board->eat);
+
+	// Puting forks back
 	pthread_mutex_unlock(philo[id].r_fork);
-	//philo->time_last_eat = get_time();
-	pthread_mutex_lock(philo[id].print);
-	printf("%lu %d is sleeping\n", get_time() - philo[id].start_time, id);
-	pthread_mutex_unlock(philo[id].print);
-	usleep_custom(board->sleep);
-	pthread_mutex_lock(philo[id].print);
-	printf("%lu %d is thinking\n", get_time() - philo[id].start_time, id);
-	pthread_mutex_unlock(philo[id].print);
+	pthread_mutex_unlock(philo[id].l_fork);
+	//philo[id].cur_time = get_time();
+
+	// Sleep
+	philo_speak(philo, "%lu %d is sleeping\n", id);
+	usleep(board->sleep);
+
+	// Think
+	philo_speak(philo, "%lu %d is thinking\n", id);
 }
 
 void	*routine(void *arg)
@@ -65,12 +63,8 @@ void	*routine(void *arg)
 	board = (t_board *)arg;
 	philo = board->philo;
 	id = board->id;
-	if (!(id % 2) && id != 1)
-		usleep_custom(board->eat / 2);
-	while (42)
-	{
+	while (LOOP)
 		philo_live(board, philo, id);
-	}
 	
 	return (NULL);
 }

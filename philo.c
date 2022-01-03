@@ -19,13 +19,13 @@ char	*parse(int ac, char **av, t_board *board)
 	board->number = ft_atoi(*(av + 1));
 	if (board->number < 1)
 		return ("arg 1 must be 'number_of_philosophers'");
-	board->die = ft_atoi(*(av + 2));
+	board->die = ft_atoi(*(av + 2)) * 1000;
 	if (board->die < 1)
 		return ("arg 2 must be 'time_to_die'");
-	board->eat = ft_atoi(*(av + 3));
+	board->eat = ft_atoi(*(av + 3)) * 1000;
 	if (board->eat < 1)
 		return ("arg 3 must be 'time_to_eat'");
-	board->sleep = ft_atoi(*(av + 4));
+	board->sleep = ft_atoi(*(av + 4)) * 1000;
 	if (board->sleep < 1)
 		return ("arg 4 must be 'time_to_sleep'");
 	board->limit = -1;
@@ -42,24 +42,24 @@ int	assign_forks(t_board *board, t_philo *philo, int id)
 	{
 		philo[id].l_fork = malloc(sizeof(pthread_mutex_t *));
 		philo[id].r_fork = malloc(sizeof(pthread_mutex_t *));
-		if (pthread_mutex_init(philo[id].l_fork, NULL) || pthread_mutex_init(philo[id].r_fork, NULL))
+		if (!philo[id].l_fork || pthread_mutex_init(philo[id].l_fork, NULL)
+			|| !philo[id].r_fork || pthread_mutex_init(philo[id].r_fork, NULL))
 			return (1);
-		pthread_mutex_unlock(philo[id].l_fork);
-		pthread_mutex_unlock(philo[id].r_fork);
 	}
-	else if (id != board->number - 1)
+	else if (id < board->number)
 	{
 		philo[id].l_fork = philo[id - 1].r_fork;
 		philo[id].r_fork = malloc(sizeof(pthread_mutex_t *));
-		if (pthread_mutex_init(philo[id].r_fork, NULL))
+		if (!philo[id].r_fork || pthread_mutex_init(philo[id].r_fork, NULL))
 			return (1);
-		pthread_mutex_unlock(philo[id].r_fork);
 	}
 	else
 	{
 		philo[id].l_fork = philo[id - 1].r_fork;
 		philo[id].r_fork = philo[0].l_fork;
 	}
+	pthread_mutex_unlock(philo[id].l_fork);
+	pthread_mutex_unlock(philo[id].r_fork);
 	return (0);
 }
 
@@ -70,19 +70,18 @@ int	init_philo(t_board *board, t_philo *philo)
 
 	i = -1;
 	print = malloc(sizeof(pthread_mutex_t *));
-	pthread_mutex_init(print, NULL);
+	if (!print || pthread_mutex_init(print, NULL))
+		return (1);
 	while (++i < board->number)
 	{
 		philo[i].is_dead = 0;
 		philo[i].eat_count = 0;
 		philo[i].print = print;
-		pthread_mutex_unlock(print);
-		//pthread_mutex_unlock(philo[i].print);
 		if (assign_forks(board, philo, i))
 			return (1);
 	}
+	pthread_mutex_unlock(print);
 	board->philo = philo;
-	board->stop = 0;
 	return (0);
 }
 
@@ -101,7 +100,6 @@ int	start_philo(t_board *board, t_philo *philo)
 	i = -1;
 	while (++i < board->number)
 	{
-		philo[i].start_time = get_time();
 		pthread_join(philo[i].philo, NULL);
 	}
 	return (0);
@@ -120,10 +118,10 @@ int	main(int ac, char **av)
 		return (printf("%s: error: %s\n", av[0], parse(ac, av, board)));
 	philo = malloc(sizeof(t_philo) * board->number);
 	if (!philo)
-		return (printf("malloc error\n"));
+		return (printf("philo: error: can't malloc\n"));
 	if (init_philo(board, philo))
-		return (printf("pthread_mutex_init: error: can't create mutex\n"));
+		return (printf("philo: error: can't init_philo\n"));
 	if (start_philo(board, philo))
-		return (printf("pthread_create: error: can't create thread\n"));
+		return (printf("philo: error: can't create start_philo\n"));
 	return (1);
 }
