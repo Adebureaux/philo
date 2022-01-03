@@ -19,13 +19,13 @@ char	*parse(int ac, char **av, t_board *board)
 	board->number = ft_atoi(*(av + 1));
 	if (board->number < 1)
 		return ("arg 1 must be 'number_of_philosophers'");
-	board->die = ft_atoi(*(av + 2)) * 1000;
+	board->die = ft_atoi(*(av + 2));
 	if (board->die < 1)
 		return ("arg 2 must be 'time_to_die'");
-	board->eat = ft_atoi(*(av + 3)) * 1000;
+	board->eat = ft_atoi(*(av + 3));
 	if (board->eat < 1)
 		return ("arg 3 must be 'time_to_eat'");
-	board->sleep = ft_atoi(*(av + 4)) * 1000;
+	board->sleep = ft_atoi(*(av + 4));
 	if (board->sleep < 1)
 		return ("arg 4 must be 'time_to_sleep'");
 	board->limit = -1;
@@ -36,36 +36,48 @@ char	*parse(int ac, char **av, t_board *board)
 	return (NULL);
 }
 
-int	assign_forks(t_board *board, t_philo *philo, int i)
+int	assign_forks(t_board *board, t_philo *philo, int id)
 {
-	if (!i)
+	if (!id)
 	{
-		if (pthread_mutex_init(&(philo[i].l_fork), NULL) || pthread_mutex_init(&(philo[i].r_fork), NULL))
+		philo[id].l_fork = malloc(sizeof(pthread_mutex_t *));
+		philo[id].r_fork = malloc(sizeof(pthread_mutex_t *));
+		if (pthread_mutex_init(philo[id].l_fork, NULL) || pthread_mutex_init(philo[id].r_fork, NULL))
 			return (1);
+		pthread_mutex_unlock(philo[id].l_fork);
+		pthread_mutex_unlock(philo[id].r_fork);
 	}
-	else if (i != board->number)
+	else if (id != board->number - 1)
 	{
-		philo[i].l_fork = philo[i - 1].r_fork;
-		if (pthread_mutex_init(&(philo[i].r_fork), NULL))
-			return  (1);
+		philo[id].l_fork = philo[id - 1].r_fork;
+		philo[id].r_fork = malloc(sizeof(pthread_mutex_t *));
+		if (pthread_mutex_init(philo[id].r_fork, NULL))
+			return (1);
+		pthread_mutex_unlock(philo[id].r_fork);
 	}
 	else
 	{
-		philo[i].l_fork = philo[i - 1].r_fork;
-		philo[i].r_fork = philo[0].l_fork;
+		philo[id].l_fork = philo[id - 1].r_fork;
+		philo[id].r_fork = philo[0].l_fork;
 	}
 	return (0);
 }
 
 int	init_philo(t_board *board, t_philo *philo)
 {
-	int	i;
+	pthread_mutex_t	*print;
+	int				i;
 
 	i = -1;
+	print = malloc(sizeof(pthread_mutex_t *));
+	pthread_mutex_init(print, NULL);
 	while (++i < board->number)
 	{
 		philo[i].is_dead = 0;
 		philo[i].eat_count = 0;
+		philo[i].print = print;
+		pthread_mutex_unlock(print);
+		//pthread_mutex_unlock(philo[i].print);
 		if (assign_forks(board, philo, i))
 			return (1);
 	}
@@ -82,13 +94,16 @@ int	start_philo(t_board *board, t_philo *philo)
 	while (++i < board->number)
 	{
 		board->id = i;
+		philo[i].start_time = get_time();
 		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
 			return (1);
-		usleep(500);
 	}
 	i = -1;
 	while (++i < board->number)
+	{
+		philo[i].start_time = get_time();
 		pthread_join(philo[i].philo, NULL);
+	}
 	return (0);
 }
 
