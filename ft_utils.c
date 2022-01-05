@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_string.c                                        :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/04 18:02:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/05 11:35:35 by adeburea         ###   ########.fr       */
+/*   Created: 2022/01/05 11:34:53 by adeburea          #+#    #+#             */
+/*   Updated: 2022/01/05 11:36:52 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <sys/time.h>
 
-void	ft_putstr(char *s)
+size_t	get_time(void)
 {
-	if (!s)
-		return ;
-	while (*s)
-		write(1, s++, 1);
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL))
+		return (0);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-char	*ft_strcpy(char *dst, char *src)
+void	usleep_custom(size_t time)
 {
-	int i;
+	size_t	start;
 
-	i = 0;
-	while (src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
+	start = get_time();
+	while (get_time() - start < time)
+		usleep(500);
 }

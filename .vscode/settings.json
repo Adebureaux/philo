@@ -2,6 +2,9 @@
     "makefile.extensionOutputFolder": "./.vscode",
     "files.associations": {
         "philo.h": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "stdlib.h": "c",
+        "pthread.h": "c",
+        "time.h": "c"
     }
 }

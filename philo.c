@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/05 02:40:29 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/05 14:57:14 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,6 @@ char	*parse(int ac, char **av, t_board *board)
 	if (ac == 6 && board->limit < 1)
 		return ("arg 5 must be 'number_of_times_each_philosopher_must_eat'");
 	return (NULL);
-}
-
-int	start_philo(t_board *board, t_philo *philo)
-{
-	int		i;
-
-	i = -1;
-	while (++i < board->number)
-	{
-		board->id = i;
-		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
-			return (1);
-	}
-	usleep(500);
-	i = -1;
-	while (++i < board->number)
-		pthread_join(philo[i].philo, NULL);
-	return (0);
 }
 
 int	main(int ac, char **av)

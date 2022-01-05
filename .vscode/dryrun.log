@@ -1,12 +1,10 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory `/Users/adeburea/42/philo'
-mkdir -p objs
-gcc -Wall -Wextra -g -fsanitize=address -c philo.c -o objs/philo.o
-gcc -Wall -Wextra -g -fsanitize=address -c init.c -o objs/init.o
 gcc -Wall -Wextra -g -fsanitize=address -c routine.c -o objs/routine.o
+ 
+gcc -Wall -Wextra -g -fsanitize=address -c ft_utils.c -o objs/ft_utils.o
 gcc -Wall -Wextra -g -fsanitize=address -c ft_digit.c -o objs/ft_digit.o
 gcc -Wall -Wextra -g -fsanitize=address -c ft_string.c -o objs/ft_string.o
-gcc -Wall -Wextra -g -fsanitize=address -o philo objs/philo.o objs/init.o objs/routine.o objs/ft_digit.o objs/ft_string.o
- 
+gcc -Wall -Wextra -g -fsanitize=address -o philo objs/philo.o objs/init.o objs/routine.o objs/ft_utils.o objs/ft_digit.o objs/ft_string.o
 make: Leaving directory `/Users/adeburea/42/philo'
  

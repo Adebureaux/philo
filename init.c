@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/05 02:47:08 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/05 15:11:00 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int		init_philo(t_board *board, t_philo *philo)
 	if (!print || pthread_mutex_init(print, NULL))
 		return (1);
     init_color(board, philo);
+	board->stop = 0;
 	while (++i < board->number)
 	{
 		philo[i].count_meal = 0;
@@ -75,5 +76,24 @@ int		init_philo(t_board *board, t_philo *philo)
 	}
 	pthread_mutex_unlock(print);
 	board->philo = philo;
+	return (0);
+}
+
+int	start_philo(t_board *board, t_philo *philo)
+{
+	int		i;
+
+	i = -1;
+	board->start_time = get_time();
+	while (++i < board->number)
+	{
+		board->id = i;
+		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
+			return (1);
+		usleep(100);
+	}
+	i = -1;
+	while (++i < board->number)
+		pthread_join(philo[i].philo, NULL);
 	return (0);
 }
