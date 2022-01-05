@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/05 15:10:38 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:38:06 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_board
 	size_t			start_time;
 	char			color[7][10];
 	int				id;
+	int				full_number;
 	int				number;
 	int				die;
 	int				eat;
