@@ -1,14 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_digit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:59:49 by adeburea          #+#    #+#             */
-/*   Updated: 2021/10/07 12:24:32 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/04 18:45:07 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+# include <unistd.h>
 
 int	ft_skip(const char *str)
 {
@@ -55,4 +57,25 @@ int	ft_atoi(const char *str)
 		}
 	}
 	return ((int)(ret * sign));
+}
+
+void	ft_putnbr(size_t n)
+{
+	char		c;
+
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		n = -n;
+	}
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+	{
+		c = n + '0';
+		write(1, &c, 1);
+	}
 }
