@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/06 12:49:45 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/06 17:33:59 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <sys/time.h>
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
 # define YELLOW	"\033[1;33m"
@@ -52,7 +53,6 @@ typedef struct s_board
 }			t_board;
 
 size_t	get_time(void);
-void	usleep_custom(size_t time);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
 void	ft_putstr(char *s);

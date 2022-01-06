@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/06 02:32:28 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/06 17:52:28 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int		init_philo(t_board *board, t_philo *philo)
 	while (++i < board->number)
 	{
 		philo[i].count_meal = 0;
-		philo[i].last_meal = 0;
 		philo[i].print = print;
 		if (assign_forks(board, philo, i))
 			return (1);
@@ -92,7 +91,7 @@ int	start_philo(t_board *board, t_philo *philo)
 		board->id = i;
 		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
 			return (1);
-		usleep(100);
+		usleep(50);
 	}
 	i = -1;
 	while (++i < board->number)

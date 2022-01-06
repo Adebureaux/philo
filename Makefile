@@ -6,7 +6,7 @@
 #    By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 15:43:50 by adeburea          #+#    #+#              #
-#    Updated: 2022/01/05 11:37:19 by adeburea         ###   ########.fr        #
+#    Updated: 2022/01/06 17:31:50 by adeburea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ OBJS	=	$(addprefix $(OBJ)/, $(SRCS:.c=.o))
 SRCS 	=	philo.c \
 			init.c \
 			routine.c \
-			ft_utils.c \
 			ft_digit.c \
 			ft_string.c
 
