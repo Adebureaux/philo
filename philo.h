@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: augustin <augustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/06 17:54:14 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/06 21:13:17 by augustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define PURPLE	"\033[1;35m"
 # define CYAN	"\033[1;36m"
 # define DEF	"\033[1m"
-# define DELAY	50
+# define DELAY	1000
 
 typedef struct s_philo
 {
