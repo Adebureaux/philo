@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/06 17:52:28 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/06 17:53:56 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	start_philo(t_board *board, t_philo *philo)
 		board->id = i;
 		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
 			return (1);
-		usleep(50);
+		usleep(DELAY);
 	}
 	i = -1;
 	while (++i < board->number)
