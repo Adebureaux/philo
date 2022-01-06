@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/05 19:50:20 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/06 02:32:28 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,13 @@ int		init_philo(t_board *board, t_philo *philo)
 	if (!print || pthread_mutex_init(print, NULL))
 		return (1);
     init_color(board, philo);
-	board->stop = 0;
+	board->rip = -1;
 	board->full_number = 0;
+	board->stop = 0;
 	while (++i < board->number)
 	{
 		philo[i].count_meal = 0;
-		philo[i].last_meal = -1;
+		philo[i].last_meal = 0;
 		philo[i].print = print;
 		if (assign_forks(board, philo, i))
 			return (1);

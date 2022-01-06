@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/05 16:38:06 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/06 02:31:55 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_philo
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*print;
-	int				last_meal;
+	size_t			last_meal;
 	int				count_meal;
 	char			color[7];
 }				t_philo;
@@ -40,6 +40,8 @@ typedef struct s_board
 	t_philo			*philo;
 	size_t			start_time;
 	char			color[7][10];
+	int				rip;
+	int				stop;
 	int				id;
 	int				full_number;
 	int				number;
@@ -47,7 +49,6 @@ typedef struct s_board
 	int				eat;
 	int				sleep;
 	int				limit;
-	int				stop;
 }			t_board;
 
 size_t	get_time(void);

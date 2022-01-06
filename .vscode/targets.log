@@ -8,12 +8,11 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Wed Jan  5 19:15:32 2022
+# Make data base, printed on Thu Jan  6 01:32:09 2022
 
 # Variables
 
 # automatic
- 
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
 ?F = $(notdir $?)
@@ -42,7 +41,7 @@ VSCODE_VERBOSE_LOGGING = true
 # makefile (from `Makefile', line 19)
 OBJS = $(addprefix $(OBJ)/, $(SRCS:.c=.o))
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/7l/r7bz55v12vv0znk2n41d1wyr0000gn/T/vscode-ipc-3964db6b-ee7c-48bd-ae3e-122059a3231a.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/7l/r7bz55v12vv0znk2n41d1wyr0000gn/T/vscode-ipc-505ab36a-8c21-4e2b-812c-ad712c750e6e.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -56,11 +55,11 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.Iqy4Dcp0KH/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.Wso5B6xlTo/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
-DISPLAY = /private/tmp/com.apple.launchd.tp3yIXYhZX/org.xquartz:0
+DISPLAY = /private/tmp/com.apple.launchd.uQxnU1oP9v/org.xquartz:0
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -160,7 +159,7 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 673
+VSCODE_PID = 792
 # variable set hash-table stats:
 # Load=74/1024=7%, Rehash=0, Collisions=10/110=9%
 
@@ -249,6 +248,7 @@ objs:
 # automatic
 # ? := 
 # variable set hash-table stats:
+ 
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  commands to execute (from `Makefile', line 31):
 	@mkdir -p $(OBJ)
@@ -324,6 +324,6 @@ clean:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Wed Jan  5 19:15:32 2022
+# Finished Make data base on Thu Jan  6 01:32:09 2022
 
  
