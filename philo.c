@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 04:01:21 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 04:18:43 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	philo_speak(t_board *board, t_philo *philo, char *str, int id)
 		ft_putstr(str);
 		ft_putstr("\033[0m");
 	}
-	if (!board->stop && board->rip == id)
+	if (board->rip == id)
 		board->stop = 1;
 	pthread_mutex_unlock(philo[id].print);
 }
