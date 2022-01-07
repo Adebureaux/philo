@@ -1,5 +1,10 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory `/Users/adeburea/42/philo'
-make: `philo' is up to date.
+gcc -Wall -Wextra -Werror -c main.c -o objs/main.o
+ 
+gcc -Wall -Wextra -Werror -c routine.c -o objs/routine.o
+gcc -Wall -Wextra -Werror -c ft_string.c -o objs/ft_string.o
+gcc -Wall -Wextra -Werror -o philo objs/main.o objs/init.o objs/philo.o objs/routine.o objs/ft_digit.o objs/ft_string.o
+ 
 make: Leaving directory `/Users/adeburea/42/philo'
  

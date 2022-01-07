@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:02:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/05 11:35:35 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:13:24 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_putstr(char *s)
 
 char	*ft_strcpy(char *dst, char *src)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (src[i])

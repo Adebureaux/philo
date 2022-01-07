@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 02:58:29 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:16:38 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	assign_forks(t_board *board, t_philo *philo, int id)
 
 void	init_color(t_board *board, t_philo *philo)
 {
-    int	i;
+	int	i;
 
 	i = -1;
 	ft_strcpy(board->color[0], DEF);
@@ -55,7 +55,7 @@ void	init_color(t_board *board, t_philo *philo)
 		ft_strcpy(philo[i].color, board->color[i % 7]);
 }
 
-int		init_philo(t_board *board, t_philo *philo)
+int	init_philo(t_board *board, t_philo *philo)
 {
 	pthread_mutex_t	*print;
 	int				i;
@@ -64,7 +64,7 @@ int		init_philo(t_board *board, t_philo *philo)
 	print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	if (!print || pthread_mutex_init(print, NULL))
 		return (1);
-    init_color(board, philo);
+	init_color(board, philo);
 	board->rip = -1;
 	board->full_number = 0;
 	board->stop = 0;
