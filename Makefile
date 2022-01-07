@@ -6,7 +6,7 @@
 #    By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 15:43:50 by adeburea          #+#    #+#              #
-#    Updated: 2022/01/07 14:42:01 by adeburea         ###   ########.fr        #
+#    Updated: 2022/01/07 18:29:20 by adeburea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ FLAGS	=	-Wall -Wextra -Werror
 INC		=	philo.h
 OBJ		=	objs
 OBJS	=	$(addprefix $(OBJ)/, $(SRCS:.c=.o))
-SRCS 	=	philo.c \
+SRCS 	=	main.c \
+			philo.c \
 			init.c \
 			routine.c \
 			ft_digit.c \
