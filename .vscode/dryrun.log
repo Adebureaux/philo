@@ -1,6 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory `/Users/adeburea/42/philo'
-make: `philo' is up to date.
- 
-make: Leaving directory `/Users/adeburea/42/philo'
- 
