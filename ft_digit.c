@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:59:49 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/05 11:35:33 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:31:13 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,6 @@ void	ft_putnbr(size_t n)
 {
 	char		c;
 
-	if (n < 0)
-	{
-		write(1, "-", 1);
-		n = -n;
-	}
 	if (n >= 10)
 	{
 		ft_putnbr(n / 10);
