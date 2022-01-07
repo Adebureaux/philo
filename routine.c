@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:35:03 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 14:30:41 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:42:37 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	*routine(void *arg)
 	while (42)
 	{
 		if (philo_live(board, philo, id))
-			break;
+			break ;
 	}
 	return (NULL);
 }

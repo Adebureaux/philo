@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 14:38:18 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:45:52 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,30 +53,16 @@ int	main(int ac, char **av)
 
 	board = malloc(sizeof(t_board));
 	if (!board)
-		return (printf("philo: error: can't malloc\n"));
+		return (printf("philo: error: can't malloc"));
 	if (parse(ac, av, board))
-	{
-		free(board);
-		return (printf("%s: error: %s\n", av[0], parse(ac, av, board)));
-	}
+		return (quit(board, NULL, parse(ac, av, board)));
 	philo = malloc(sizeof(t_philo) * board->number);
 	if (!philo)
-	{
-		free(board);
-		return (printf("philo: error: can't malloc\n"));
-	}
+		return (quit(board, NULL, "philo: error: can't malloc"));
 	if (init_philo(board, philo))
-	{
-		free(board);
-		free(philo);
-		return (printf("philo: error: can't init_philo\n"));
-	}
+		return (quit(board, philo, "philo: error: can't init_philo"));
 	if (start_philo(board, philo))
-	{
-		free(board);
-		free(philo);
-		return (printf("philo: error: can't start_philo\n"));
-	}
+		return (quit(board, philo, "philo: error: can't start_philo"));
 	free_philo(board, philo);
 	return (1);
 }

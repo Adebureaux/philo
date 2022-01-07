@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 14:26:56 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:49:27 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	assign_forks(t_board *board, t_philo *philo, int id)
 {
 	if (!id)
 	{
-		philo[id].l_fork = malloc(sizeof(pthread_mutex_t *));
-		philo[id].r_fork = malloc(sizeof(pthread_mutex_t *));
+		philo[id].l_fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+		philo[id].r_fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 		if (!philo[id].l_fork || pthread_mutex_init(philo[id].l_fork, NULL)
 			|| !philo[id].r_fork || pthread_mutex_init(philo[id].r_fork, NULL))
 			return (1);
@@ -25,7 +25,7 @@ int	assign_forks(t_board *board, t_philo *philo, int id)
 	else if (id < board->number)
 	{
 		philo[id].l_fork = philo[id - 1].r_fork;
-		philo[id].r_fork = malloc(sizeof(pthread_mutex_t *));
+		philo[id].r_fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 		if (!philo[id].r_fork || pthread_mutex_init(philo[id].r_fork, NULL))
 			return (1);
 	}
@@ -109,12 +109,13 @@ void	free_philo(t_board *board, t_philo *philo)
 	{
 		philo[0].print = NULL;
 		pthread_detach(philo[i].philo);
-		if (philo[i].l_fork)
-			pthread_mutex_destroy(philo[i].l_fork);
-		if (philo[i].r_fork)
-			pthread_mutex_destroy(philo[i].r_fork);
-		philo[i].l_fork = NULL;
-		philo[i].r_fork = NULL;
+		if (!i)
+		{
+			free(philo[i].l_fork);
+			free(philo[i].r_fork);
+		}
+		else if (i < board->number)
+			free(philo[i].r_fork);
 	}
 	free(philo);
 	free(board);
