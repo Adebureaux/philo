@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:59:49 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 04:16:23 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:29:53 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_atoi(const char *str)
 
 void	ft_putnbr(size_t n)
 {
-	char		c;
+	char	c;
 
 	if (n >= 10)
 	{

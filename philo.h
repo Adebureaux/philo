@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 03:47:38 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:29:06 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	ft_putnbr(size_t n);
 char	*ft_strcpy(char *dst, char *src);
 int		init_philo(t_board *board, t_philo *philo);
 int		start_philo(t_board *board, t_philo *philo);
-int		philo_live(t_board *board, t_philo *philo, int id);
 void	*routine(void *arg);
 void	free_philo(t_board *board, t_philo *philo);
 

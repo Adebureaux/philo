@@ -6,19 +6,18 @@
 #    By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 15:43:50 by adeburea          #+#    #+#              #
-#    Updated: 2022/01/07 03:57:12 by adeburea         ###   ########.fr        #
+#    Updated: 2022/01/07 14:36:07 by adeburea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		=	gcc
 NAME	=	philo
-FLAGS	=	-pthread -Wall -Wextra -Werror
+FLAGS	=	-Wall -Wextra -Werror #-g -fsanitize=address
 INC		=	philo.h
 OBJ		=	objs
 OBJS	=	$(addprefix $(OBJ)/, $(SRCS:.c=.o))
-SRCS 	=	main.c \
+SRCS 	=	philo.c \
 			init.c \
-			philo.c \
 			routine.c \
 			ft_digit.c \
 			ft_string.c
