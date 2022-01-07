@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: augustin <augustin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:35:03 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/06 21:05:46 by augustin         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:04:23 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	philo_speak(t_board *board, t_philo *philo, char *str, int id)
 		ft_putstr(str);
 		ft_putstr("\033[0m");
 	}
-	if (!board->stop && board->rip == id)
+	if (board->rip == id)
 		board->stop = 1;
 	pthread_mutex_unlock(philo[id].print);
 }
@@ -48,7 +48,7 @@ int		usleep_custom_check_death(t_board *board, t_philo *philo, int id, size_t ti
 	{
 		if (board->stop)
 			return (1);
-		else if (get_time() - philo[id].last_meal > (size_t)board->die)
+		else if (get_time() - philo[id].last_meal >= (size_t)board->die)
 		{
 			board->rip = id;
 			philo_speak(board, philo, "died\n", id);
@@ -69,12 +69,10 @@ int		philo_eat(t_board *board, t_philo *philo, int id)
 	philo[id].count_meal++;
 	if (philo[id].count_meal >= board->limit)
 		board->full_number++;
-	// Taking forks
 	pthread_mutex_lock(philo[id].l_fork);
 	pthread_mutex_lock(philo[id].r_fork);
 	philo_speak(board, philo, "has taken a fork\n", id);
 	philo_speak(board, philo, "has taken a fork\n", id);
-	// Eat
 	philo_speak(board, philo, "is eating\n", id);
 	if (usleep_custom_check_death(board, philo, id, board->eat))
 	{
@@ -83,7 +81,6 @@ int		philo_eat(t_board *board, t_philo *philo, int id)
 		return (1);	
 	}
 	philo[id].last_meal = get_time();
-	// Puting forks back
 	pthread_mutex_unlock(philo[id].l_fork);
 	pthread_mutex_unlock(philo[id].r_fork);
 	return (0);
@@ -93,12 +90,9 @@ int		philo_live(t_board *board, t_philo *philo, int id)
 {
 	if (philo_eat(board, philo, id))
 		return (1);
-	// Sleep
 	philo_speak(board, philo, "is sleeping\n", id);
 	if (usleep_custom_check_death(board, philo, id, board->sleep))
 		return (1);
-
-	// Think
 	philo_speak(board, philo, "is thinking\n", id);
 	if (board->limit != -1 && philo[id].count_meal >= board->limit)
 		return (1);
@@ -119,7 +113,6 @@ void	*routine(void *arg)
 	{
 		if (philo_live(board, philo, id))
 			break;
-
 	}
 	return (NULL);
 }

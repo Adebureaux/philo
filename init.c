@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/06 17:53:56 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 02:58:29 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,27 @@ int	start_philo(t_board *board, t_philo *philo)
 	while (++i < board->number)
 		pthread_join(philo[i].philo, NULL);
 	return (0);
+}
+
+void	free_philo(t_board *board, t_philo *philo)
+{
+	int		i;
+
+	i = -1;
+	free(philo[0].print);
+	while (++i < board->number)
+	{
+		philo[0].print = NULL;
+		pthread_detach(philo[i].philo);
+		if (philo[i].l_fork)
+			pthread_mutex_destroy(philo[i].l_fork);
+		if (philo[i].r_fork)
+			pthread_mutex_destroy(philo[i].r_fork);
+		philo[i].l_fork = NULL;
+		philo[i].r_fork = NULL;
+	}
+	free(philo);
+	free(board);
+	philo = NULL;
+	board = NULL;
 }

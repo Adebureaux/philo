@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/06 12:56:55 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:04:23 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ int	main(int ac, char **av)
 		return (printf("philo: error: can't init_philo\n"));
 	if (start_philo(board, philo))
 		return (printf("philo: error: can't start_philo\n"));
+	free_philo(board, philo);
 	return (1);
 }

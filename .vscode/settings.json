@@ -5,6 +5,7 @@
         "__locale": "c",
         "stdlib.h": "c",
         "pthread.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "locale": "c"
     }
 }
