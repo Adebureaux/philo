@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 03:18:58 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 03:19:08 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/07 03:51:09 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,35 @@
 char	*parse(int ac, char **av, t_board *board)
 {
 	if (ac != 5 && ac != 6)
-		return ("must have 4 or 5 arguments");
+		return ("philo: error: must have 4 or 5 arguments");
 	board->number = ft_atoi(*(av + 1));
 	if (board->number < 1)
-		return ("arg 1 must be 'number_of_philosophers'");
+		return ("philo: error: arg 1 must be 'number_of_philosophers'");
 	board->die = ft_atoi(*(av + 2));
 	if (board->die < 1)
-		return ("arg 2 must be 'time_to_die'");
+		return ("philo: error: arg 2 must be 'time_to_die'");
 	board->eat = ft_atoi(*(av + 3));
 	if (board->eat < 1)
-		return ("arg 3 must be 'time_to_eat'");
+		return ("philo: error: arg 3 must be 'time_to_eat'");
 	board->sleep = ft_atoi(*(av + 4));
 	if (board->sleep < 1)
-		return ("arg 4 must be 'time_to_sleep'");
+		return ("philo: error: arg 4 must be 'time_to_sleep'");
 	board->limit = -1;
 	if (ac == 6)
 		board->limit = ft_atoi(*(av + 5));
 	if (ac == 6 && board->limit < 1)
-		return ("arg 5 must be 'number_of_times_each_philosopher_must_eat'");
+		return ("philo: error: arg 5 must be 'number_of_times_philosopher_must_eat'");
 	return (NULL);
+}
+
+int	quit(t_board *board, t_philo *philo, char *err)
+{
+	if (board)
+		free(board);
+	if (philo)
+		free(philo);
+	printf("%s\n", err);
+	return (-1);
 }
 
 int	main(int ac, char **av)
@@ -43,16 +53,16 @@ int	main(int ac, char **av)
 
 	board = malloc(sizeof(t_board));
 	if (!board)
-		return (printf("malloc error\n"));
+		return (quit(NULL, NULL, "philo: error: malloc error"));
 	if (parse(ac, av, board))
-		return (printf("%s: error: %s\n", av[0], parse(ac, av, board)));
+		return (quit(board, NULL, parse(ac, av, board)));
 	philo = malloc(sizeof(t_philo) * board->number);
 	if (!philo)
-		return (printf("philo: error: can't malloc\n"));
+		return (quit(board, NULL, "philo: error: can't malloc"));
 	if (init_philo(board, philo))
-		return (printf("philo: error: can't init_philo\n"));
+		return (quit(board, philo, "philo: error: can't init_philo"));
 	if (start_philo(board, philo))
-		return (printf("philo: error: can't start_philo\n"));
-	free_philo(board, philo);
+		return (quit(board, philo, "philo: error: can't start_philo"));
+	//free_philo(board, philo);
 	return (1);
 }
