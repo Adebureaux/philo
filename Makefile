@@ -12,7 +12,7 @@
 
 CC		=	gcc
 NAME	=	philo
-FLAGS	=	-Wall -Wextra -Werror
+FLAGS	=	-pthread -Wall -Wextra -Werror
 INC		=	philo.h
 OBJ		=	objs
 OBJS	=	$(addprefix $(OBJ)/, $(SRCS:.c=.o))

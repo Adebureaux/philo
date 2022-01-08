@@ -108,7 +108,6 @@ void	free_philo(t_board *board, t_philo *philo)
 	while (++i < board->number)
 	{
 		philo[0].print = NULL;
-		pthread_detach(philo[i].philo);
 		if (!i)
 		{
 			free(philo[i].l_fork);
