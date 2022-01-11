@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:25:22 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 18:31:27 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/11 12:53:40 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ int	usleep_custom_check_death(t_board *board,
 
 int	philo_eat(t_board *board, t_philo *philo, int id)
 {
-	philo[id].count_meal++;
-	if (philo[id].count_meal >= board->limit)
-		board->full_number++;
 	pthread_mutex_lock(philo[id].l_fork);
 	pthread_mutex_lock(philo[id].r_fork);
 	philo_speak(board, philo, "has taken a fork\n", id);
 	philo_speak(board, philo, "has taken a fork\n", id);
 	philo_speak(board, philo, "is eating\n", id);
+	philo[id].count_meal++;
+	if (philo[id].count_meal >= board->limit)
+		board->full_number++;
 	if (usleep_custom_check_death(board, philo, id, board->eat))
 	{
 		pthread_mutex_unlock(philo[id].l_fork);
