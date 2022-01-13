@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 18:30:43 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/13 11:11:32 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 typedef struct s_board
 {
 	t_philo			*philo;
+	pthread_mutex_t	*lock;
 	size_t			start_time;
 	char			color[7][10];
 	int				rip;

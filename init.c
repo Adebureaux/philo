@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 18:24:57 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/13 11:36:08 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	assign_forks(t_board *board, t_philo *philo, int id)
 		philo[id].l_fork = philo[id - 1].r_fork;
 		philo[id].r_fork = philo[0].l_fork;
 	}
-	pthread_mutex_unlock(philo[id].l_fork);
-	pthread_mutex_unlock(philo[id].r_fork);
 	return (0);
 }
 
@@ -58,16 +56,17 @@ void	init_color(t_board *board, t_philo *philo)
 int	init_philo(t_board *board, t_philo *philo)
 {
 	pthread_mutex_t	*print;
+	pthread_mutex_t	*lock;
 	int				i;
 
 	i = -1;
 	print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	if (!print || pthread_mutex_init(print, NULL))
 		return (1);
+	lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	if (!lock || pthread_mutex_init(lock, NULL))
+		return (1);
 	init_color(board, philo);
-	board->rip = -1;
-	board->full_number = 0;
-	board->stop = 0;
 	while (++i < board->number)
 	{
 		philo[i].count_meal = 0;
@@ -75,8 +74,7 @@ int	init_philo(t_board *board, t_philo *philo)
 		if (assign_forks(board, philo, i))
 			return (1);
 	}
-	pthread_mutex_unlock(print);
-	board->philo = philo;
+	board->lock = lock;
 	return (0);
 }
 
@@ -85,13 +83,16 @@ int	start_philo(t_board *board, t_philo *philo)
 	int		i;
 
 	i = -1;
+	board->id = 0;
+	board->rip = -1;
+	board->full_number = 0;
+	board->stop = 0;
+	board->philo = philo;
 	board->start_time = get_time();
 	while (++i < board->number)
 	{
-		board->id = i;
 		if (pthread_create(&(philo[i].philo), NULL, &routine, board))
 			return (1);
-		usleep(DELAY);
 	}
 	i = -1;
 	while (++i < board->number)
@@ -105,6 +106,7 @@ void	free_philo(t_board *board, t_philo *philo)
 
 	i = -1;
 	free(philo[0].print);
+	free(board->lock);
 	while (++i < board->number)
 	{
 		philo[0].print = NULL;

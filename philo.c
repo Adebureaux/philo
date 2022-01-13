@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:25:22 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/11 12:53:40 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/13 11:29:33 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	philo_speak(t_board *board, t_philo *philo, char *str, int id)
 		ft_putstr(str);
 		ft_putstr("\033[0m");
 	}
+	pthread_mutex_lock(board->lock);
 	if (board->rip == id)
 		board->stop = 1;
+	pthread_mutex_unlock(board->lock);
 	pthread_mutex_unlock(philo[id].print);
 }
 
@@ -47,19 +49,22 @@ int	usleep_custom_check_death(t_board *board,
 	start = get_time();
 	while (get_time() - start < time)
 	{
+		pthread_mutex_lock(board->lock);
 		if (board->stop)
-			return (1);
-		else if (get_time() - philo[id].last_meal >= (size_t)board->die)
+			return (pthread_mutex_unlock(board->lock) + 1);
+		if (get_time() - philo[id].last_meal >= (size_t)board->die)
 		{
 			board->rip = id;
+			pthread_mutex_unlock(board->lock);
 			philo_speak(board, philo, "died\n", id);
 			return (1);
 		}
-		else if (board->limit != -1 && board->full_number == board->number)
+		if (board->limit != -1 && board->full_number == board->number)
 		{
 			board->stop = 1;
-			return (1);
+			return (pthread_mutex_unlock(board->lock) + 1);
 		}
+		pthread_mutex_unlock(board->lock);
 		usleep(DELAY);
 	}
 	return (0);
@@ -70,11 +75,16 @@ int	philo_eat(t_board *board, t_philo *philo, int id)
 	pthread_mutex_lock(philo[id].l_fork);
 	pthread_mutex_lock(philo[id].r_fork);
 	philo_speak(board, philo, "has taken a fork\n", id);
-	philo_speak(board, philo, "has taken a fork\n", id);
+	if (board->number > 1)
+		philo_speak(board, philo, "has taken a fork\n", id);
+	else
+		usleep_custom_check_death(board, philo, id, board->die + 1);
 	philo_speak(board, philo, "is eating\n", id);
+	pthread_mutex_lock(board->lock);
 	philo[id].count_meal++;
 	if (philo[id].count_meal >= board->limit)
 		board->full_number++;
+	pthread_mutex_unlock(board->lock);
 	if (usleep_custom_check_death(board, philo, id, board->eat))
 	{
 		pthread_mutex_unlock(philo[id].l_fork);

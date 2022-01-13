@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:22 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/07 18:29:08 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/13 11:05:56 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	main(int ac, char **av)
 	t_board	*board;
 	t_philo	*philo;
 
-	board = malloc(sizeof(t_board));
+	board = (t_board *)malloc(sizeof(t_board));
 	if (!board)
 		return (printf("philo: error: can't malloc"));
 	if (parse(ac, av, board))
 		return (quit_error(board, NULL, parse(ac, av, board)));
-	philo = malloc(sizeof(t_philo) * board->number);
+	philo = (t_philo *)malloc(sizeof(t_philo) * board->number);
 	if (!philo)
 		return (quit_error(board, NULL, "philo: error: can't malloc"));
 	if (init_philo(board, philo))
