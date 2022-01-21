@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:35:03 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/19 16:11:28 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/21 03:48:38 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*routine(void *arg)
 	board->id++;
 	pthread_mutex_unlock(board->lock);
 	philo = board->philo;
-	philo[id].last_meal = get_time();
+	philo[id].start_eating = get_time();
 	while (42)
 	{
 		if (philo_live(board, philo, id))
