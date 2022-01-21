@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:09:07 by adeburea          #+#    #+#             */
-/*   Updated: 2022/01/21 04:11:34 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/01/21 16:59:45 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ int	assign_forks(t_board *board, t_philo *philo, int id)
 			|| !philo[id].r_fork || pthread_mutex_init(philo[id].r_fork, NULL))
 			return (1);
 	}
-	else if (id < board->number)
+	else if (id == board->number - 1)
+	{
+		philo[id].l_fork = philo[id - 1].r_fork;
+		philo[id].r_fork = philo[0].l_fork;
+	}
+	else
 	{
 		philo[id].l_fork = philo[id - 1].r_fork;
 		philo[id].r_fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 		if (!philo[id].r_fork || pthread_mutex_init(philo[id].r_fork, NULL))
 			return (1);
-	}
-	else
-	{
-		philo[id].l_fork = philo[id - 1].r_fork;
-		philo[id].r_fork = philo[0].l_fork;
 	}
 	return (0);
 }
@@ -115,7 +115,7 @@ void	free_philo(t_board *board, t_philo *philo)
 			free(philo[i].l_fork);
 			free(philo[i].r_fork);
 		}
-		else if (i < board->number)
+		else if (i != board->number - 1)
 			free(philo[i].r_fork);
 	}
 	free(philo);
