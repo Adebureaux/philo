@@ -6,7 +6,7 @@
 /*   By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:20:23 by adeburea          #+#    #+#             */
-/*   Updated: 2022/03/09 02:24:13 by adeburea         ###   ########.fr       */
+/*   Updated: 2022/03/09 02:32:38 by adeburea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define PURPLE	"\033[1;35m"
 # define CYAN	"\033[1;36m"
 # define DEF	"\033[1m"
-# define DELAY	500
+# define DELAY	300
 
 typedef struct s_philo
 {

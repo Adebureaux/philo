@@ -6,13 +6,13 @@
 #    By: adeburea <adeburea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 15:43:50 by adeburea          #+#    #+#              #
-#    Updated: 2022/03/09 02:23:15 by adeburea         ###   ########.fr        #
+#    Updated: 2022/03/09 02:31:47 by adeburea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		=	gcc
 NAME	=	philo
-FLAGS	=	-pthread -Wall -Wextra -Werror #-g -fsanitize=thread
+FLAGS	=	-pthread -Wall -Wextra -Werror
 INC		=	philo.h
 OBJ		=	objs
 OBJS	=	$(addprefix $(OBJ)/, $(SRCS:.c=.o))
